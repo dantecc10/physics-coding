@@ -25,15 +25,20 @@ while running:
     screen.fill("white")
 
     pygame.draw.aaline(screen, (30, 30, 30), [0, 0], [px, py], 1)
+    #pygame.draw.aaline(screen, (30, 30, 30), [50, 70], [px, py], 1)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
         py -= 300 * dt
     if keys[pygame.K_s]:
         py += 300 * dt
     if keys[pygame.K_a]:
-        py -= 300 * dt
+        px -= 300 * dt
     if keys[pygame.K_d]:
-        py += 300 * dt
+        px += 300 * dt
     if keys[pygame.K_r]:
         px = 50
         py = 30
+        
+    pygame.display.flip()
+    
+    dt = clock.tick(60) / 1000
