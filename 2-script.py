@@ -24,8 +24,8 @@ while running:
             
     screen.fill("white")
 
-    pygame.draw.aaline(screen, (30, 30, 30), [0, 0], [px, py], 1)
-    #pygame.draw.aaline(screen, (30, 30, 30), [50, 70], [px, py], 1)
+    pygame.draw.aaline(screen, "purple", [0, 0], [px, py], 1)
+    pygame.draw.aaline(screen, (30, 30, 30), [50, 70], [px, py], 1)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
         py -= 300 * dt
