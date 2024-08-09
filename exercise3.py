@@ -10,7 +10,7 @@ dt = 0
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
 x0 = 500
-y0 = 500
+y0 = 350
 
 # P1 = (r * cos(0) + x0, r * sin(0) + x0)
 theta = 40
@@ -32,7 +32,7 @@ while running:
     if keys[pygame.K_UP]:
         theta -= 50# * dt
     if keys[pygame.K_DOWN]:
-        theta += 5# * dt
+        theta += 50# * dt
     x1 = r * np.cos(theta) + x0
     y1 = r * np.sin(theta) + y0
     #if keys[pygame.K_LEFT]: x2 -= 300 * dt
@@ -40,11 +40,9 @@ while running:
         
     if keys[pygame.K_r]:
         x0 = 500
-        y0 = 500
-
-        # P1 = (r * cos(0) + x0, r * sin(0) + x0)
-        theta = 100
-        r = 200
+        y0 = 350
+        theta = 40
+        r = 150
         x1 = r * np.cos(theta) + x0
         y1 = r * np.sin(theta) + y0
         
