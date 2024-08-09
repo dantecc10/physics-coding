@@ -12,14 +12,14 @@ player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 x1 = 200
 y1 = 70
 
-x2 = x1 + 600
-y2 = y1 + 600
+x2 = x1 + 450
+y2 = y1 + 450
 
-x3 = x1 + 600
-y3 = y1 + 200
+x3 = x1 + 450
+y3 = y1 + 150
 
-x4 = x1 + 200
-y4 = y1 + 600
+x4 = x1 + 150
+y4 = y1 + 450
 
 while running: 
     # poll for events
@@ -30,9 +30,9 @@ while running:
             
     screen.fill("white")
 
-    pygame.draw.aaline(screen, "red", [x1, y1], [x2, y2], 5)
-    pygame.draw.aaline(screen, "red", [x2, y2], [x3, y3], 5)
-    pygame.draw.aaline(screen, "red", [x2, y2], [x4, y4], 5)
+    pygame.draw.aaline(screen, "red", [x1, y1], [x2, y2], 10)
+    pygame.draw.aaline(screen, "red", [x2, y2], [x3, y3], 10)
+    pygame.draw.aaline(screen, "red", [x2, y2], [x4, y4], 10)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP]:
         y2 -= 300 * dt
@@ -47,14 +47,14 @@ while running:
         x1 = 200
         y1 = 70
         
-        x2 = x1 + 600
-        y2 = y1 + 600
+        x2 = x1 + 450
+        y2 = y1 + 450
         
-        x3 = x1 + 600
-        y3 = y1 + 200
+        x3 = x1 + 450
+        y3 = y1 + 150
         
-        x4 = x1 + 200
-        y4 = y1 + 600
+        x4 = x1 + 150
+        y4 = y1 + 450
         
     pygame.display.flip()
     
