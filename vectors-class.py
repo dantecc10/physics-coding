@@ -68,3 +68,53 @@ class Vector:
     
 # Crear un vector
 vector = Vector(origin=(0, 0), end = (0, 30))
+
+
+while running:
+    # Esto es para poder detener la ejecución cuando se cierre la ventana
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    # Rellenar la pantalla con color blanco
+    screen.fill("white")
+    
+    # Dibujar el vector
+    vector.draw(screen)
+    
+    keys = pygame.key.get_pressed()
+    
+    # Movimiento del extremo del vector
+    if keys[pygame.K_w]:
+        vector.move_end(0, -300 * dt)
+    if keys[pygame.K_s]:
+        vector.move_end(0, 300 * dt)
+    if keys[pygame.K_a]:
+        vector.move_end(-300 * dt, 0)
+    if keys[pygame.K_d]:
+        vector.move_end(300 * dt, 0)
+    
+    # Movimiento del extremo del vector
+    if keys[pygame.K_UP]:
+        vector.move_origin(0, -300 * dt)
+    if keys[pygame.K_DOWN]:
+        vector.move_origin(0, 300 * dt)
+    if keys[pygame.K_LEFT]:
+        vector.move_origin(-300 * dt, 0)
+    if keys[pygame.K_RIGHT]:
+        vector.move_origin(300 * dt, 0)
+        
+    # Resetear el vector
+    if keys[pygame.K_r]:
+        vector.reset()
+        
+    # Actualizar la pantalla
+    pygame.display.flip()
+    
+    # Limitar los FPS a 60
+    dt = clock.tick(60) / 1000
+    # running = False
+pygame.quit
+
+print('End of execution')
+    
