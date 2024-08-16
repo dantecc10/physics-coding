@@ -68,7 +68,7 @@ class Vector:
     
 # Crear un vector
 vector = Vector(origin=(0, 0), end = (0, 30))
-
+vector2 = Vector(origin=(0, 0), end = (0, 30))
 
 while running:
     # Esto es para poder detener la ejecución cuando se cierre la ventana
@@ -81,10 +81,11 @@ while running:
     
     # Dibujar el vector
     vector.draw(screen)
+    vector2.draw(screen)
     
     keys = pygame.key.get_pressed()
     
-    # Movimiento del extremo del vector
+    # Movimiento del extremo del vector 1
     if keys[pygame.K_w]:
         vector.move_end(0, -300 * dt)
     if keys[pygame.K_s]:
@@ -93,6 +94,16 @@ while running:
         vector.move_end(-300 * dt, 0)
     if keys[pygame.K_d]:
         vector.move_end(300 * dt, 0)
+    
+    # Movimiento del extremo del vector 2
+    if keys[pygame.K_t]:
+        vector2f.move_end(0, -300 * dt)
+    if keys[pygame.K_g]:
+        vector2f.move_end(0, 300 * dt)
+    if keys[pygame.K_f]:
+        vector2f.move_end(-300 * dt, 0)
+    if keys[pygame.K_h]:
+        vector2f.move_end(300 * dt, 0)
     
     # Movimiento del extremo del vector
     if keys[pygame.K_UP]:
@@ -103,6 +114,16 @@ while running:
         vector.move_origin(-300 * dt, 0)
     if keys[pygame.K_RIGHT]:
         vector.move_origin(300 * dt, 0)
+    
+    # Movimiento del extremo del vector 2
+    if keys[pygame.K_i]:
+        vector2.move_origin(0, -300 * dt)
+    if keys[pygame.K_k]:
+        vector2.move_origin(0, 300 * dt)
+    if keys[pygame.K_j]:
+        vector2.move_origin(-300 * dt, 0)
+    if keys[pygame.K_l]:
+        vector2.move_origin(300 * dt, 0)
         
     # Resetear el vector
     if keys[pygame.K_r]:
