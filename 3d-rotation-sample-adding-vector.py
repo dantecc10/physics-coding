@@ -182,13 +182,17 @@ while running:
     txt8 = my_font.render('FCC BUAP, Física I', False, (0, 0, 0))
     txt9 = my_font.render('Vector: (' + str(vector[0]) + ', ' + str(vector[1]) + ', ' + str(vector[2]) + ')', False, ('green'))
     txt10 = my_font.render('Magnitud del vector: ' + str(np.sqrt(np.power(vector[0], 2) + np.power(vector[1], 2) + np.power(vector[0], 2))), False, ('orange'))
+    txt11 = my_font.render('Dante Castelán Carpinteyro', False, (0, 0, 0))
+    txt12 = my_font.render('Ingeniería en Ciencias de la Computación', False, (0, 0, 0))
             
     screen.blit(txt1, (10, 24))
     screen.blit(txt4, (10, 36))
     screen.blit(txt5, (10, 48))
     screen.blit(txt6, (10, 60))
     screen.blit(txt7, (460, 10))
-    screen.blit(txt8, (10, 480))
+    screen.blit(txt8, (10, 420))
+    screen.blit(txt11, (10, 432))
+    screen.blit(txt12, (10, 444))
     screen.blit(txt9, (10, 72))
     screen.blit(txt10, (10, 84))
     
