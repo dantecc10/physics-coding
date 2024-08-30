@@ -190,7 +190,7 @@ while running:
     screen.blit(txt5, (10, 48))
     screen.blit(txt6, (10, 60))
     screen.blit(txt7, (460, 10))
-    screen.blit(txt8, (10, 420))
+    screen.blit(txt8, (10, 456))
     screen.blit(txt11, (10, 432))
     screen.blit(txt12, (10, 444))
     screen.blit(txt9, (10, 72))
