@@ -8,7 +8,7 @@ import numpy as np
 pygame.init()
 screen = pygame.display.set_mode((500, 500))
 pygame.font.init()
-my_font = pygame.font.SysFont('Arial', 10)
+my_font = pygame.font.SysFont('Arial', 15, False)
 clock = pygame.time.Clock()
 running = True
 dt = 1
@@ -181,20 +181,38 @@ while running:
     txt7 = my_font.render('FPS: ' + str(round(1 / dt)), False, (0, 0, 0))
     txt8 = my_font.render('FCC BUAP, Física I', False, (0, 0, 0))
     txt9 = my_font.render('Vector: (' + str(vector[0]) + ', ' + str(vector[1]) + ', ' + str(vector[2]) + ')', False, ('green'))
-    txt10 = my_font.render('Magnitud del vector: ' + str(np.sqrt(np.power(vector[0], 2) + np.power(vector[1], 2) + np.power(vector[0], 2))), False, ('orange'))
+    r = (np.sqrt(np.power(vector[0], 2) + np.power(vector[1], 2) + np.power(vector[0], 2)))
+    txt10 = my_font.render('Magnitud del vector: ' + str(r), False, ('orange'))
+    
+    # Dibujar la flecha del vector
+    arrow_theta = np.arctan2(py_vector-250,px_vector-250)
+    if r < 30:
+        df = r / 6
+    else:
+        df = r / 10
+        
+    triangle_points = [
+        (df * np.cos(arrow_theta) + px_vector, df * np.sin(arrow_theta) + py_vector),
+        (df * np.cos( arrow_theta + (120 * (np.pi / 180))) + px_vector,
+        df * np.sin(arrow_theta + (120 * (np.pi / 180))) + py_vector),
+        (df * np.cos(arrow_theta + (240 * (np.pi / 180))) + px_vector,
+        df * np.sin(arrow_theta + (240 * (np.pi / 180))) + py_vector),
+    ]
+    pygame.draw.polygon(screen, (30, 30, 30), triangle_points)
+    
     txt11 = my_font.render('Dante Castelán Carpinteyro', False, (0, 0, 0))
     txt12 = my_font.render('Ingeniería en Ciencias de la Computación', False, (0, 0, 0))
             
-    screen.blit(txt1, (10, 24))
-    screen.blit(txt4, (10, 36))
-    screen.blit(txt5, (10, 48))
-    screen.blit(txt6, (10, 60))
-    screen.blit(txt7, (460, 10))
-    screen.blit(txt8, (10, 456))
-    screen.blit(txt11, (10, 432))
-    screen.blit(txt12, (10, 444))
-    screen.blit(txt9, (10, 72))
-    screen.blit(txt10, (10, 84))
+    screen.blit(txt1, (10, 25))
+    screen.blit(txt4, (10, 40))
+    screen.blit(txt5, (10, 55))
+    screen.blit(txt6, (10, 70))
+    screen.blit(txt7, (420, 10))
+    screen.blit(txt8, (10, 460))
+    screen.blit(txt11, (10, 430))
+    screen.blit(txt12, (10, 445))
+    screen.blit(txt9, (10, 85))
+    screen.blit(txt10, (10, 100))
     
     pygame.display.flip()
     
