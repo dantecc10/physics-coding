@@ -22,6 +22,9 @@ a3 = 0
 cont = 0
 ic = 1
 
+# Vector que quieres dibujar desde el origen
+vector = np.array([30, 30, 30])
+
 # Funciones
 def rot(phi, tht, psi):
     # Esta función es para rotar objetos en 3D
@@ -40,7 +43,6 @@ def rot(phi, tht, psi):
     A[2, 0] = -np.sin(tht)
     A[2, 1] = np.cos(tht) * np.sin(phi)
     A[2, 2] = np.cos(tht) * np.cos(phi)
-    
     return A
 
 
@@ -58,8 +60,8 @@ while running:
     R = rot(a1, a2, a3)
     
     # Marco de referencia
-    px = L * R[0, 0]
-    py = L * R[1, 0]
+    px1 = L * R[0, 0]
+    py1 = L * R[1, 0]
     
     px2 = L * R[0, 1]
     py2 = L * R[1, 1]
@@ -67,9 +69,9 @@ while running:
     px3 = L * R[0, 2]
     py3 = L * R[1, 2]
     
-    pygame.draw.aaline(screen, (255, 0, 0), [250, 250], [px+250, py + 250], 1)
-    pygame.draw.aaline(screen, (0, 255, 0), [250, 250], [px2+250, py2 + 250], 1)
-    pygame.draw.aaline(screen, (0, 0, 255), [250, 250], [px3+250, py3 + 250], 1)
+    pygame.draw.aaline(screen, (255, 0, 0), [250, 250], [px1 + 250, py1 + 250], 1)
+    pygame.draw.aaline(screen, (0, 255, 0), [250, 250], [px2 + 250, py2 + 250], 1)
+    pygame.draw.aaline(screen, (0, 0, 255), [250, 250], [px3 + 250, py3 + 250], 1)
     
     # Crear paredes con polígonos
     M = 2 * L
@@ -112,9 +114,19 @@ while running:
     screen.blit(scralp2, (0, 0))
     screen.blit(scralp3, (0, 0))
     
+    # Rotación del vector
+    vector_rotado = np.dot(R, vector)
+
+    # Coordenadas proyectadas para el vector en la pantalla 2D
+    px_vector = vector_rotado[0] + 250
+    py_vector = vector_rotado[1] + 250
     
+    # Dibuja el vector desde el origen (250, 250) hasta el punto rotado
+    pygame.draw.aaline(screen, (0, 0, 0), [250, 250], [px_vector, py_vector], 1)
+    
+    txt1 = my_font.render('', False, (0, 0, 0))
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_q]:
+    if keys[pygame.K_d]:
         a1 += ic * dt
     if keys[pygame.K_a]:
         a1 -= ic * dt
@@ -122,28 +134,63 @@ while running:
         a2 += ic * dt
     if keys[pygame.K_s]:
         a2 -= ic * dt
-    if keys[pygame.K_e]:
+    if keys[pygame.K_q]:
         a3 += ic * dt
-    if keys[pygame.K_d]:
+    if keys[pygame.K_e]:
         a3 -= ic * dt
+        
+    if keys[pygame.K_UP]:
+        vector[1] += ic * dt
+    if keys[pygame.K_DOWN]:
+        vector[1] -= ic * dt
+    if keys[pygame.K_LEFT]:
+        vector[0] -= ic * dt
+    if keys[pygame.K_RIGHT]:
+        vector[0] += ic * dt    
+        
+    if keys[pygame.K_LCTRL] and keys[pygame.K_x] and keys[pygame.K_PLUS]:
+        txt1 = my_font.render('Pulsando: "Ctrl" + "x" + "+"', False, (0, 0, 0))
+        vector[0] += ic * dt
+    if keys[pygame.K_LCTRL] and keys[pygame.K_x] and keys[pygame.K_MINUS]:
+        txt1 = my_font.render('Pulsando: "Ctrl" + "x" + "-"', False, (0, 0, 0))
+        vector[0] -= ic * dt
+    if keys[pygame.K_LCTRL] and keys[pygame.K_y] and keys[pygame.K_PLUS]:
+        txt1 = my_font.render('Pulsando: "Ctrl" + "y" + "+"', False, (0, 0, 0))
+        vector[1] += ic * dt
+    if keys[pygame.K_LCTRL] and keys[pygame.K_y] and keys[pygame.K_MINUS]:
+        txt1 = my_font.render('Pulsando: "Ctrl" + "y" + "-"', False, (0, 0, 0))
+        vector[1] -= ic * dt
+    if keys[pygame.K_LCTRL] and keys[pygame.K_z] and keys[pygame.K_PLUS]:
+        txt1 = my_font.render('Pulsando: "Ctrl" + "z" + "+"', False, (0, 0, 0))
+        vector[2] += ic * dt
+    if keys[pygame.K_LCTRL] and keys[pygame.K_z] and keys[pygame.K_MINUS]:
+        txt1 = my_font.render('Pulsando: "Ctrl" + "z" + "-"', False, (0, 0, 0))
+        vector[2] -= ic * dt
+        
     if keys[pygame.K_r]:
         a1 = 0
         a2 = 0
-        a3 = 0    
+        a3 = 0
+        vector = np.array([30, 30, 30])
+        
         
     # Textos con datos en tiempo real
-    txt4 = my_font.render('phi: ' + str(a1*57.29577951308232), False, (0, 0, 0))
-    txt5 = my_font.render('theta: ' + str(a2*57.29577951308232), False, (0, 0, 0))
-    txt6 = my_font.render('psi: ' + str(a3*57.29577951308232), False, (0, 0, 0))
+    txt4 = my_font.render('phi (eje): ' + str(a1*57.29577951308232), False, (0, 0, 0))
+    txt5 = my_font.render('theta (eje): ' + str(a2*57.29577951308232), False, (0, 0, 0))
+    txt6 = my_font.render('psi (eje): ' + str(a3*57.29577951308232), False, (0, 0, 0))
     txt7 = my_font.render('FPS: ' + str(round(1 / dt)), False, (0, 0, 0))
     txt8 = my_font.render('FCC BUAP, Física I', False, (0, 0, 0))
+    txt9 = my_font.render('Vector: (' + str(vector[0]) + ', ' + str(vector[1]) + ', ' + str(vector[2]) + ')', False, ('green'))
+    txt10 = my_font.render('Magnitud del vector: ' + str(np.sqrt(np.power(vector[0], 2) + np.power(vector[1], 2) + np.power(vector[0], 2))), False, ('orange'))
             
-            
+    screen.blit(txt1, (10, 24))
     screen.blit(txt4, (10, 36))
     screen.blit(txt5, (10, 48))
     screen.blit(txt6, (10, 60))
-    screen.blit(txt7, (460, 0))
+    screen.blit(txt7, (460, 10))
     screen.blit(txt8, (10, 480))
+    screen.blit(txt9, (10, 72))
+    screen.blit(txt10, (10, 84))
     
     pygame.display.flip()
     
@@ -151,95 +198,3 @@ while running:
     
 pygame.quit()
 print('End of execution')
-
-
-
-'''
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-
-# Puntos para el vector
-pcx = 0     # Punto Origen Vector
-pcy = 0
-px  = 0     # Punto Extremo Vector
-py = 30
-
-# Tamaño de la flecha
-rdf = 5
-
-# Configuración para mostrar texto
-my_font = pygame.font.SysFont('Arial',10)
-
-while running:
-
-    # Esto sirve para que se cierre la ejecución cuando se cierra la ventana
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # Esto sirve para rellenar la pantalla de color blanco
-    screen.fill("white")
-
-
-
-    # Aquí se dibuja el vector----------------------------------------------
-
-    # Primero, se dibuja el segmento de recta, que toma el punto origen y el extremo
-    pygame.draw.aaline(screen, (30, 30, 30), [pcx, pcy], [px, py], 1)
-    
-    # Se obtiene su orientación mediante el uso de la función trigonométrica arctan
-    theta = np.arctan2(py-pcy,px-pcx)
-
-    # Después se calcula la magnitud del vector
-    mg1 = np.sqrt((px-pcx)**2+(py-pcy)**2)
-    
-    # La flecha se dibuja con un triángulo
-    triangle_color = (0, 0, 0)
-    triangle_points = [(rdf*np.cos(theta)+px,rdf*np.sin(theta)+py),(rdf*np.cos(theta+(120*(np.pi/180)))+px,rdf*np.sin(theta+(120*(np.pi/180)))+py),(rdf*np.cos(theta+(240*(np.pi/180)))+px,rdf*np.sin(theta+(240*(np.pi/180)))+py)]
-    pygame.draw.polygon(screen, triangle_color, triangle_points)
-
-    # Se muestran las propiedes asociadas al vector: magnitud y orientación
-    txt1 = my_font.render('Magnitud: ' + str(mg1), False, (0,0,0))
-    txt2 = my_font.render('Orientación: ' + str(theta), False, (0,0,0))
-    screen.blit(txt1,(10,0))
-    screen.blit(txt2,(250,0))
-    #-----------------------------------------------------------------------
-
-    
-    
-    keys = pygame.key.get_pressed()
-
-    if keys[pygame.K_t]:
-        px -= 300 * dt
-    if keys[pygame.K_g]:
-        px += 300 * dt
-    if keys[pygame.K_f]:
-        py -= 300 * dt
-    if keys[pygame.K_h]:
-        py += 300 * dt
-    if keys[pygame.K_v]:
-        pz -= 300 * dt
-    if keys[pygame.K_b]:
-        pz += 300 * dt
-        
-    if keys[pygame.K_i]:
-        pcx -= 300 * dt
-    if keys[pygame.K_k]:
-        pcx += 300 * dt
-    if keys[pygame.K_j]:
-        pcy -= 300 * dt
-    if keys[pygame.K_l]:
-        pcy += 300 * dt
-    if keys[pygame.K_p]:
-        pcz -= 300 * dt
-    if keys[pygame.K_ñ]:
-        pcz += 300 * dt
-        
-    if keys[pygame.K_r]:
-        px = 0
-        py = 0
-        pz = 0
-        
-        pcx = 0
-        pcy = 0
-        pcz = 0
-'''
