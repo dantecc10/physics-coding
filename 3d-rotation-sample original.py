@@ -129,45 +129,12 @@ while running:
     if keys[pygame.K_r]:
         a1 = 0
         a2 = 0
-        a3 = 0
+        a3 = 0    
         
-        px = 0
-        py = 0
-        pz = 0
-        pcx = 0
-        pcy = 0
-        pcz = 0
-    
-    if keys[pygame.K_t]:
-        px -= 300 * dt
-    if keys[pygame.K_g]:
-        px += 300 * dt
-    if keys[pygame.K_f]:
-        py -= 300 * dt
-    if keys[pygame.K_h]:
-        py += 300 * dt
-    if keys[pygame.K_v]:
-        pz -= 300 * dt
-    if keys[pygame.K_b]:
-        pz += 300 * dt
-        
-    if keys[pygame.K_i]:
-        pcx -= 300 * dt
-    if keys[pygame.K_k]:
-        pcx += 300 * dt
-    if keys[pygame.K_j]:
-        pcy -= 300 * dt
-    if keys[pygame.K_l]:
-        pcy += 300 * dt
-    if keys[pygame.K_p]:
-        pcz -= 300 * dt
-    if keys[pygame.K_ñ]:
-        pcz += 300 * dt
-        
+    # Textos con datos en tiempo real
     txt4 = my_font.render('phi: ' + str(a1*57.29577951308232), False, (0, 0, 0))
     txt5 = my_font.render('theta: ' + str(a2*57.29577951308232), False, (0, 0, 0))
     txt6 = my_font.render('psi: ' + str(a3*57.29577951308232), False, (0, 0, 0))
-    
     txt7 = my_font.render('FPS: ' + str(round(1 / dt)), False, (0, 0, 0))
     txt8 = my_font.render('FCC BUAP, Física I', False, (0, 0, 0))
             

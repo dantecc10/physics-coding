@@ -70,8 +70,6 @@ while running:
     pygame.draw.aaline(screen, (255, 0, 0), [250, 250], [px+250, py + 250], 1)
     pygame.draw.aaline(screen, (0, 255, 0), [250, 250], [px2+250, py2 + 250], 1)
     pygame.draw.aaline(screen, (0, 0, 255), [250, 250], [px3+250, py3 + 250], 1)
-    # Dibujo del vector
-    pygame.draw.aaline(screen, (30, 30, 30), [250, 250], [px + 50, px + 50], 1)
     
     # Crear paredes con polígonos
     M = 2 * L
@@ -131,12 +129,12 @@ while running:
     if keys[pygame.K_r]:
         a1 = 0
         a2 = 0
-        a3 = 0
-            
-    txt4 = my_font.render('phi: ' + str(a1 * 57.29577951308232), False, (0, 0, 0))
-    txt5 = my_font.render('theta: ' + str(a2 * 57.29577951308232), False, (0, 0, 0))
-    txt6 = my_font.render('psi: ' + str(a3 * 57.29577951308232), False, (0, 0, 0))
-    
+        a3 = 0    
+        
+    # Textos con datos en tiempo real
+    txt4 = my_font.render('phi: ' + str(a1*57.29577951308232), False, (0, 0, 0))
+    txt5 = my_font.render('theta: ' + str(a2*57.29577951308232), False, (0, 0, 0))
+    txt6 = my_font.render('psi: ' + str(a3*57.29577951308232), False, (0, 0, 0))
     txt7 = my_font.render('FPS: ' + str(round(1 / dt)), False, (0, 0, 0))
     txt8 = my_font.render('FCC BUAP, Física I', False, (0, 0, 0))
             
@@ -154,19 +152,9 @@ while running:
 pygame.quit()
 print('End of execution')
 
+
+
 '''
-import pygame
-import numpy as np
-
-# pygame setup
-# Esto es un comentario
-
-# Inicialización de pygame
-pygame.init()
-screen = pygame.display.set_mode((500, 500))
-clock = pygame.time.Clock()
-running = True
-dt = 0
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
 # Puntos para el vector
@@ -216,16 +204,42 @@ while running:
     screen.blit(txt2,(250,0))
     #-----------------------------------------------------------------------
 
+    
+    
+    keys = pygame.key.get_pressed()
 
-    # flip() the display to put your work on screen
-    pygame.display.flip()
-
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-independent physics.
-    dt = clock.tick(60) / 1000
-
-pygame.quit()
-
-print('End of execution')
-
+    if keys[pygame.K_t]:
+        px -= 300 * dt
+    if keys[pygame.K_g]:
+        px += 300 * dt
+    if keys[pygame.K_f]:
+        py -= 300 * dt
+    if keys[pygame.K_h]:
+        py += 300 * dt
+    if keys[pygame.K_v]:
+        pz -= 300 * dt
+    if keys[pygame.K_b]:
+        pz += 300 * dt
+        
+    if keys[pygame.K_i]:
+        pcx -= 300 * dt
+    if keys[pygame.K_k]:
+        pcx += 300 * dt
+    if keys[pygame.K_j]:
+        pcy -= 300 * dt
+    if keys[pygame.K_l]:
+        pcy += 300 * dt
+    if keys[pygame.K_p]:
+        pcz -= 300 * dt
+    if keys[pygame.K_ñ]:
+        pcz += 300 * dt
+        
+    if keys[pygame.K_r]:
+        px = 0
+        py = 0
+        pz = 0
+        
+        pcx = 0
+        pcy = 0
+        pcz = 0
 '''
