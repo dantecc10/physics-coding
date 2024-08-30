@@ -188,6 +188,8 @@ while running:
     arrow_theta = np.arctan2(py_vector-250,px_vector-250)
     if r < 30:
         df = r / 6
+    elif r < 10:
+        df = r / 4
     else:
         df = r / 10
         
