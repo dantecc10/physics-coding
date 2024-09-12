@@ -141,10 +141,75 @@ while running:
         px3 = M * R[0, 0] + M * R[0, 1] + cn
         py3 = M * R[1, 0] + M * R[1, 1] + cn
         px4 = M * R[0, 1] + cn
-        px4 = M * R[1, 1] + cn
-        py5 = M * R[0, 1] + M * R[0, 2] + cn
+        py4 = M * R[1, 1] + cn
+        px5 = M * R[0, 1] + M * R[0, 2] + cn
         py5 = M * R[1, 1] + M * R[1, 2] + cn
         px6 = M * R[0, 2] + cn
         py6 = M * R[1, 2] + cn
         px7 = M * R[0, 0] + M * R[0, 2] + cn
         py7 = M * R[1, 0] + M * R[1, 2] + cn
+        px8 = M * R[0, 0] + M * R[0, 1] + M * R[0, 2] + cn
+        py8 = M * R[1, 0] + M * R[1, 1] + M * R[1, 2] + cn
+        
+        scralp = pygame.Surface((500, 500), pygame.SRCALPHA)
+        pygame.draw.polygon(scralp, (0, 0, 0, 30), [[px1, py1], [px2, py2], [px3, py3], [px4, py4]], 0)
+        
+        scralp2 = pygame.Surface((500, 500), pygame.SRCALPHA)
+        pygame.draw.polygon(scralp2, (0, 0, 0, 30), [[px1, py1], [px4, py4], [px5, py5], [px6, py6]], 0)
+        
+        screen.blit(scralp, (0, 0))
+        screen.blit(scralp2, (0, 0))
+        screen.blit(scralp3, (0, 0))
+        
+        # Mostrar masas
+        ppx = x1[0, 0] * mlt # Posición eje x
+        ppy = x1[2, 0] * mlt # Posición eje y
+        ppz = x1[4, 0] * mlt # Posición eje z
+        
+        prx = ppx * R[0, 0] + ppy * R[0, 1] + ppz * R[0, 2] + cn
+        pry = ppx * R[1, 0] + ppy * R[1, 1] + ppz * R[1, 2] + cn
+        
+        scralp4 = pygame.Surface((500, 500), pygame.SRCALPHA)
+        pygame.draw.circle(scralp4, (10, 10, 255, 130), (prx, pry), 3)
+        screen.blit(scralp4, (0, 0))
+        
+        # Mostrar posición de masa m2
+        ppx = x2[0, 0] * mlt
+        ppy = x2[2, 0] * mlt
+        ppz = x2[4, 0] * mlt
+        prx = ppx * R[0, 0] + ppy * R[0, 1] + ppz * R[0, 2] + cn
+        pry = ppx * R[1, 0] + ppy * R[1, 1] + ppz * R[1, 2] + cn
+        
+        scralp5 = pygame.Surface((500, 500), pygame.SRCALPHA)
+        pygame.draw.circle(scralp5, (10, 10, 255, 130), (prx, pry), 3)
+        screen.blit(scralp5, (0, 0))
+        
+        # Modificar orientación
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_q]:
+            a1 += ic * dt
+        if keys[pygame.K_a]:
+            a1 -= ic * dt
+        if keys[pygame.K_w]:
+            a2 += ic * dt
+        if keys[pygame.K_s]:
+            a2 -= ic * dt
+        if keys[pygame.K_e]:
+            a3 += ic * dt
+        if keys[pygame.K_d]:
+            a3 -= ic * dt
+            
+        if keys[pygame.K_r]:
+            a1 = 0
+            a2 = 0
+            a3 = 0
+            
+        txt1 = my_font.render('Fuerza m1: ' + str(u1[0]) + str(u1[1]) + str(u1[2]), False, (0, 0, 0))
+        txt2 = my_font.render('Fuerza m2: ' + str(u2[0]) + str(u2[1]) + str(u2[2]), False, (0, 0, 0))
+        
+        screen.blit(txt1, (10, 0))
+        screen.blit(txt2, (10, 12))
+        pygame.display.flip()
+        
+        dt = clock.tick(60) / 1000
+    pygame.quit()
