@@ -65,40 +65,36 @@ x1[4,0] = 0
 u1      = np.zeros((3,1))
 
 
-m1      = 1e3
+m1 = 1e3
 
-x2      =  np.zeros((6,1))
+x2 = np.zeros((6,1))
 x2[0,0] = 5
 x2[3,0] = -v
 x2[2,0] = 0
 x2[4,0] = 0
-u2      = np.zeros((3,1))
-m2      = 1e3
+u2 = np.zeros((3,1))
+m2 = 1e3
 
 
 
-d12     = 0
-u12     = np.zeros((3,1))
+d12 = 0
+u12 = np.zeros((3,1))
 
 
 #Variables de graficacion
-L  =  50 #DISTANCIA DE LOS EJES DEL SISTEMA
-         #DE COORDENADAS CARTESIANAS EN 3D
-a1 = 0   #ANGULO DE ROTACION EN X
-a2 = 0   #ANGULO DE ROTACION EN X
-a3 = 0    #ANGULO DE ROTACION EN X
-ic = 1   #VARIABLE AUXILIAR
-mlt = 5    #VARIABLE PARA AMPLIFICAR DISTANCIA
+L = 50 #DISTANCIA DE LOS EJES DEL SISTEMA DE COORDENADAS CARTESIANAS EN 3D
+a1 = 0 #ANGULO DE ROTACION EN X
+a2 = 0 #ANGULO DE ROTACION EN X
+a3 = 0 #ANGULO DE ROTACION EN X
+ic = 1 #VARIABLE AUXILIAR
+mlt = 5 #VARIABLE PARA AMPLIFICAR DISTANCIA
 
 while running:
     for event in pygame.event.get():
         if event.type ==pygame.QUIT:
             running = False
     screen.fill("White")
-    d12 = np.sqrt((x1[0]-x2[0])**2
-                       +(x1[2]-x2[2])**2
-                       +(x1[4]-x2[4])**2)
-
+    d12 = np.sqrt((x1[0]-x2[0])**2 + (x1[2]-x2[2])**2 + (x1[4]-x2[4])**2)
 
     for k in range(3):
             u12[k] = (x1[2*k] - x2[2*k])/d12
@@ -110,7 +106,7 @@ while running:
             u2[k] = -u1[k]
             
 
-            #Solucuion de escuacion diferencial ordinaria
+            #Solución de ecuacion diferencial ordinaria
 
     hsim  =  1/60  #PASO DE INTEGRACION
     K11 = ode1(x1,u1,m1)
@@ -135,47 +131,38 @@ while running:
     px3  = L*R[0,2]
     py3  = L*R[1,2]
 
-    pygame.draw.aaline(screen,(255,0,0),[250,250],
-                       [px+cn,py+cn]  ,1)
-    pygame.draw.aaline(screen,(0,255,0),[250,250],
-                       [px2+cn,py2+cn]  ,1)
-    pygame.draw.aaline(screen,(0,0,255),[250,250],
-                       [px3+cn,py3+cn]  ,1)
+    pygame.draw.aaline(screen,(255,0,0),[250,250], [px+cn,py+cn]  ,1)
+    pygame.draw.aaline(screen,(0,255,0),[250,250], [px2+cn,py2+cn]  ,1)
+    pygame.draw.aaline(screen,(0,0,255),[250,250], [px3+cn,py3+cn]  ,1)
 
     #MOSTRAR POLIGONOS
-    M   = 2*L
-    px1  = cn
-    py1  = cn
-    px2  = M*R[0,0] + cn
-    py2  = M*R[1,0] + cn
-    px3  = M*R[0,0] + M*R[0,1] + cn
-    py3  = M*R[1,0] + M*R[1,1] + cn
-    px4  = M*R[0,1] + cn
-    py4  = M*R[1,1] + cn
-    px5  = M*R[0,1] + M*R[0,2] + cn
-    py5  = M*R[1,1] + M*R[1,2] + cn
-    px6  = M*R[0,2] + cn
-    py6  = M*R[1,2] + cn
+    M = 2*L
+    px1 = cn
+    py1 = cn
+    px2 = M*R[0,0] + cn
+    py2 = M*R[1,0] + cn
+    px3 = M*R[0,0] + M*R[0,1] + cn
+    py3 = M*R[1,0] + M*R[1,1] + cn
+    px4 = M*R[0,1] + cn
+    py4 = M*R[1,1] + cn
+    px5 = M*R[0,1] + M*R[0,2] + cn
+    py5 = M*R[1,1] + M*R[1,2] + cn
+    px6 = M*R[0,2] + cn
+    py6 = M*R[1,2] + cn
     
-    px7  = M*R[0,0] + M*R[0,2] + cn
-    py7  = M*R[1,0] + M*R[1,2] + cn
-    px8  = M*R[0,0] + M*R[0,1] + M*R[0,2] + cn
-    py8  = M*R[1,0] + M*R[1,1] + M*R[1,2] + cn
+    px7 = M*R[0,0] + M*R[0,2] + cn
+    py7 = M*R[1,0] + M*R[1,2] + cn
+    px8 = M*R[0,0] + M*R[0,1] + M*R[0,2] + cn
+    py8 = M*R[1,0] + M*R[1,1] + M*R[1,2] + cn
 
     scralp = pygame.Surface((500,500), pygame.SRCALPHA)
-    pygame.draw.polygon(scralp,(0,0,0,30),
-                        [[px1,py1],[px2,py2],
-                         [px3,py3],[px4,py4]],0)
+    pygame.draw.polygon(scralp,(0,0,0,30), [[px1,py1],[px2,py2], [px3,py3],[px4,py4]],0)
 
     scralp2 = pygame.Surface((500,500), pygame.SRCALPHA)
-    pygame.draw.polygon(scralp2,(0,0,0,30),
-                        [[px1,py1],[px4,py4],
-                         [px5,py5],[px6,py6]],0)
+    pygame.draw.polygon(scralp2,(0,0,0,30), [[px1,py1],[px4,py4], [px5,py5],[px6,py6]],0)
 
     scralp3 = pygame.Surface((500,500), pygame.SRCALPHA)
-    pygame.draw.polygon(scralp3,(0,0,0,30),
-                        [[px1,py1],[px2,py2],
-                         [px7,py7],[px6,py6]],0)
+    pygame.draw.polygon(scralp3,(0,0,0,30), [[px1,py1],[px2,py2], [px7,py7],[px6,py6]],0)
 
     screen.blit(scralp,(0,0))
     screen.blit(scralp2,(0,0))
@@ -192,8 +179,7 @@ while running:
 
     scralp4 = pygame.Surface((500,500), pygame.SRCALPHA)
 
-    pygame.draw.circle(scralp4,(10,10,255,130),
-                       (prx,pry),3)
+    pygame.draw.circle(scralp4,(10,10,255,130), (prx,pry),3)
     screen.blit(scralp4,(0,0))
     #MOSTRAR POSICION DE MASA m2
     ppx = x2[0,0] * mlt
@@ -202,8 +188,7 @@ while running:
     prx = ppx*R[0,0] + ppy*R[0,1] + ppz*R[0,2] + cn
     pry = ppx*R[1,0] + ppy*R[1,1] + ppz*R[1,2] + cn
     scralp5 = pygame.Surface((500,500), pygame.SRCALPHA)
-    pygame.draw.circle(scralp5,(10,10,255,130),
-                       (prx,pry),3)
+    pygame.draw.circle(scralp5,(10,10,255,130), (prx,pry),3)
     screen.blit(scralp5,(0,0))
 
     #MODIFICAR ORIENTACION
