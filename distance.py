@@ -6,7 +6,7 @@ masas = [
     [1, 2], # Masa 1, índice 0
     [3, 6], # Masa 2, índice 1
     [7, 1], # Masa 3, índice 2
-    [5, 0],
+    [5, 0], # Masa 4, índice 3
     [7, 8]
 ]
 
