@@ -106,7 +106,7 @@ while running:
             u2[k] = -u1[k]
             
 
-            #Solución de ecuacion diferencial ordinaria
+            #Solución de ecuación diferencial ordinaria
 
     hsim  =  1/60  #PASO DE INTEGRACION
     K11 = ode1(x1,u1,m1)
