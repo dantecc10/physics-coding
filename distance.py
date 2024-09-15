@@ -1,7 +1,7 @@
 import numpy as np
 import pygame
 
-nums = [2, 4, 5, 6]
+# nums = [2, 4, 5, 6] # Initial debugging array
 masas = [
     [1, 2], # Masa 1, índice 0
     [3, 6], # Masa 2, índice 1
