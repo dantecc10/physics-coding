@@ -99,7 +99,6 @@ while running:
     for k in range(3):
             u12[k] = (x1[2*k] - x2[2*k])/d12
 
-
             #FUERZA DE ATRACCION DE LAS MASAS
     for k in range(3):
             u1[k] = -G*m1*m2*u12[k]*(1/(d12**2))
