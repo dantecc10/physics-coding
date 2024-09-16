@@ -103,9 +103,8 @@ while running:
     for k in range(3):
             u1[k] = -G*m1*m2*u12[k]*(1/(d12**2))
             u2[k] = -u1[k]
-            
 
-            #Solución de ecuación diferencial ordinaria
+    #Solución de ecuación diferencial ordinaria
 
     hsim  =  1/60  #PASO DE INTEGRACION
     K11 = ode1(x1,u1,m1)
