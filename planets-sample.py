@@ -106,7 +106,7 @@ while running:
 
     #Solución de ecuación diferencial ordinaria
 
-    hsim  =  1/60  #PASO DE INTEGRACION
+    hsim  =  1/60  # Paso de integración
     K11 = ode1(x1,u1,m1)
     K21 = ode1(x1+0.5*hsim*K11,u1,m1)
     K31 = ode1(x1+0.5*hsim*K21,u1,m1)
