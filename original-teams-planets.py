@@ -70,40 +70,6 @@ m2      = 1e3
 d12     = 0                 # Distancia entre masas
 u12     = np.zeros((3,1))   # Vector unitario
 
-class Masa:
-    def __init__(self, x, y, z, vx, vy, vz, m):
-        self.x = x
-        self.y = y
-        self.z = z
-        self.vx = vx
-        self.vy = vy
-        self.vz = vz
-        self.m = m
-        self.u = np.zeros((3,1))
-        self.x = np.zeros((6,1))
-        self.x[0,0] = x # Posición inicial en eje x
-        self.x[3,0] = vx # Velocidad inicial en y
-        self.x[2,0] = y # Posición inicial en y
-        self.x[4,0] = z # Posición inicial en z
-        self.u = np.zeros((3,1)) # Aquí se va a colocar la fuerza ejercida por la otra masa
-        self.m = m # Masa 1, su unidad son los kg
-    
-    def move(self, u):
-        self.u = u
-        K1 = ode1(self.x,u,self.m)
-        K2 = ode1(self.x+0.5*dt*K1,u,self.m)
-        K3 = ode1(self.x+0.5*dt*K2,u,self.m)
-        K4 = ode1(self.x+dt*K3,u,self.m)
-        self.x = self.x + (1/6)*dt*(K1 + 2*K2 + 2*K3 + K4)
-        return self.x
-    
-    def draw(self):
-        ppx = self.x[0,0] * mlt
-        ppy = self.x[2,0] * mlt
-        ppz = self.x[4,0] * mlt
-        
-    
-
 # Variables graficación
 L = 50 # Distancia de los ejes del sistema de coordenadas cartesianas en 3D
 a1 = 0  # Ángulo de rotación en eje x

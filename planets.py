@@ -2,14 +2,14 @@
 
 import numpy as np
 import pygame
-import matploblib.pyplot as plt
+import matplotlib.pyplot as plt
 
 pygame.init()
 screen = pygame.display.set_mode((500, 500))
 pygame.font.init()
 my_font = pygame.font.SysFont('Arial', 10)
 clock = pygame.time.Clock()
-running = True.cos()
+running = True
 dt = 1/60
 
 def rot(phi, tht, psi):
@@ -54,7 +54,7 @@ def ode1 (x, u, m):
 
 # Constantes físicas
 G = 1 #6.672e-11
-v = sqrt((G * 1e3) / (0.5 * (10 ** 3))) * 5
+v = np.sqrt((G * 1e3) / (0.5 * (10 ** 3))) * 5
 print(v)
 
 # Variables masa 1
