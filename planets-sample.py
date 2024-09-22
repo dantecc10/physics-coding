@@ -33,7 +33,7 @@ def ode1(x,u,m):
     x1 = x[0] # Posición en el eje x de la masa
     x2 = x[1] # Velocidad en el eje x de la masa
     y1 = x[2] # Posición en el eje y de la masa
-    y2 = x[3] # Velocidad en el eje y de la masa
+    y2 = x[3] # Velocidad en el eje y de la masa+ 1/10
     z1 = x[4] # Posición en el eje z de la masa
     z2 = x[5] # Velocidad en el eje z de la masa
     xp = np.zeros((6,1)) # xp indica derivada de x con respecto al tiempo dx/dt = xp
