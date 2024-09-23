@@ -12,10 +12,11 @@ my_font = pygame.font.SysFont('Arial',10)
 clock = pygame.time.Clock()
 running = True
 dt = 1/60
+cn = 250
 
 def rot(phi,tht,psi):
     # Esta función es para rotar objetos en 3D
-    A      = np.zeros((3,3))
+    A = np.zeros((3,3))
     A[0,0] = np.cos(psi)*np.cos(tht)
     A[0,1] = np.cos(psi)*np.sin(tht)*np.sin(phi) -np.sin(psi)*np.cos(phi)
     A[0,2] = np.cos(psi)*np.sin(tht)*np.cos(phi) +np.sin(psi)*np.sin(phi)
@@ -44,65 +45,59 @@ def ode1(x,u,m):
     xp[5] = (1/m)*( u[2] )
     return xp
 
+class Masa:
+    def __init__(self, position, speed, mass, color = (0, 0, 255), radius = 3):
+        self.position = list(position)        
+        self.speed = list(speed)
+        self.mass = mass
+        self.color = color
+        self.radius = radius
+    
+    def draw(self, screen):
+        x_axis = self.position[0]
+        y_axis = self.position[1]
+        print(str(x_axis), ", ", str(y_axis))
+        pygame.draw.circle(screen, self.color, [x_axis, y_axis], self.radius)
+        
+    def move(self, u): # u es la fuerza ejercida por la otra masa
+        self.u = u
+        pos_array = [self.position[0], self.position[1], self.position[2]]
+        speed_array = [self.speed[0], self.speed[1], self.speed[2]]
+        data = np.concatenate((pos_array, speed_array))
+        modifier = ode1(data, u, self.mass)
+        self.position[0] = modifier[1]
+        self.position[1] = modifier[3]
+        self.position[2] = modifier[5]
+
 # Constantes físicas
 G = 1 #6.672e-11
 v = np.sqrt((G*1e3)/(0.5*(10**3)))*5
 print(v)
 
 #variables masa 1
-x1      = np.zeros((6,1))
+x1 = np.zeros((6,1))
 x1[0,0] = -5 # Esta es la posición inicial en x
 x1[3,0] = v  # Esta es la velocidad inicial en y
 x1[2,0] = 0  # Posición incial en y
 x1[4,0] = 0  # Posición incial en z
-u1      = np.zeros((3,1))  # Aquí se va a colocar la fuerza ejercida por la otra masa
-m1      = 1e3 # masa 1, su unidad son los kg
+u1 = np.zeros((3,1))  # Aquí se va a colocar la fuerza ejercida por la otra masa
+m1 = 1e3 # masa 1, su unidad son los kg
 #variables masa 2
-x2      = np.zeros((6,1))
+x2 = np.zeros((6,1))
 x2[0,0] = 5  # Posición inicial en eje x
 x2[3,0] = -v # Velocidd inicial en el eje y
 x2[2,0] = 0  # Posición inicial en eje y
 x2[4,0] = 0  # Posición inicial en eje z
-u2      = np.zeros((3,1))
-m2      = 1e3
+u2 = np.zeros((3,1))
+m2 = 1e3
+
+u3 = np.zeros((3,1))
+nueva_masa = Masa([cn, cn, 0], [5, -v, v], 1e3)
+
 
 # varibles en común masas
-d12     = 0                 # Distancia entre masas
-u12     = np.zeros((3,1))   # Vector unitario
-
-class Masa:
-    def __init__(self, x, y, z, vx, vy, vz, m):
-        self.x = x
-        self.y = y
-        self.z = z
-        self.vx = vx
-        self.vy = vy
-        self.vz = vz
-        self.m = m
-        self.u = np.zeros((3,1))
-        self.x = np.zeros((6,1))
-        self.x[0,0] = x # Posición inicial en eje x
-        self.x[3,0] = vx # Velocidad inicial en y
-        self.x[2,0] = y # Posición inicial en y
-        self.x[4,0] = z # Posición inicial en z
-        self.u = np.zeros((3,1)) # Aquí se va a colocar la fuerza ejercida por la otra masa
-        self.m = m # Masa 1, su unidad son los kg
-    
-    def move(self, u):
-        self.u = u
-        K1 = ode1(self.x,u,self.m)
-        K2 = ode1(self.x+0.5*dt*K1,u,self.m)
-        K3 = ode1(self.x+0.5*dt*K2,u,self.m)
-        K4 = ode1(self.x+dt*K3,u,self.m)
-        self.x = self.x + (1/6)*dt*(K1 + 2*K2 + 2*K3 + K4)
-        return self.x
-    
-    def draw(self):
-        ppx = self.x[0,0] * mlt
-        ppy = self.x[2,0] * mlt
-        ppz = self.x[4,0] * mlt
-        
-    
+d12 = 0                 # Distancia entre masas
+u12 = np.zeros((3,1))   # Vector unitario
 
 # Variables graficación
 L = 50 # Distancia de los ejes del sistema de coordenadas cartesianas en 3D
@@ -111,6 +106,7 @@ a2 = 0  # Ángulo de rotación en eje y
 a3 = 0  # Ángulo de rotación en eje z
 ic = 1  # Variable auxiliar
 mlt = 5 # Variable para amplificar distancia
+    
 
 while running:
     for event in pygame.event.get():
@@ -120,6 +116,8 @@ while running:
 
     # distancia entre masas
     d12 = np.sqrt((x1[0]-x2[0])**2+(x1[2]-x2[2])**2+(x1[4]-x2[4])**2)
+    d13 = np.sqrt((x1[0]-nueva_masa.position[0])**2+(x1[2]-nueva_masa.position[1])**2+(x1[4]-x2[4])**2)
+    d12 = np.sqrt((x1[0]-x2[0])**2+(x1[2]-x2[2])**2+(x1[4]-x2[4])**2)
     # Definición del vector unitario
     for k in range(3):
         u12[k] = (x1[2*k] - x2[2*k])/d12
@@ -127,6 +125,8 @@ while running:
     for k in range(3):
         u1[k] = -G*m1*m2*u12[k]*(1/(d12**2))
         u2[k] = -u1[k]
+        u3[k] = -G*m1*m2*u12[k]*(1/(d13**2))
+        
 
     # Solución de ecuación diferencial ordinaria para las masas
     hsim = 1/60 # paso de integración
@@ -176,7 +176,8 @@ while running:
     pygame.draw.polygon(scralp2,(0,0,0,30), [[px1,py1],[px4,py4], [px5,py5],[px6,py6]],0)
     scralp3 = pygame.Surface((500,500), pygame.SRCALPHA)
     pygame.draw.polygon(scralp3,(0,0,0,30), [[px1,py1],[px2,py2], [px7,py7],[px6,py6]],0)
- 
+    
+
     screen.blit(scralp,(0,0))
     screen.blit(scralp2,(0,0))
     screen.blit(scralp3,(0,0))
@@ -195,6 +196,11 @@ while running:
     ppz = x2[4,0] * mlt
     prx = ppx*R[0,0] + ppy*R[0,1] + ppz*R[0,2] + cn
     pry = ppx*R[1,0] + ppy*R[1,1] + ppz*R[1,2] + cn
+    
+    nueva_masa.move(u3)
+    nueva_masa.draw(screen)
+    
+    
     scralp5 = pygame.Surface((500,500), pygame.SRCALPHA)
     pygame.draw.circle(scralp5,(10,10,255,130), (prx,pry),3)
     screen.blit(scralp5,(0,0))
@@ -220,8 +226,10 @@ while running:
     str(u1[0]) + str(u1[1]) + str(u1[2]), False, (0,0,0))
     txt2 = my_font.render('Fuerza m2: ' +
     str(u2[0]) + str(u2[1]) + str(u2[2]), False, (0,0,0))
+    #txt3 = my_font.render('Fuerza m3: ')
     screen.blit(txt1,(10,0))
     screen.blit(txt2,(10,12))
+    #screen.blit(txt3,(10,24))
     pygame.display.flip()
     dt = clock.tick(60) / 1000
     # print(u1,u2)
