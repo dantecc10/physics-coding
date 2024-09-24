@@ -33,7 +33,7 @@ def ode1(x,u,m):
     x1 = x[0] # Posición en el eje x de la masa
     x2 = x[1] # Velocidad en el eje x de la masa
     y1 = x[2] # Posición en el eje y de la masa
-    y2 = x[3] # Velocidad en el eje y de la masa+ 1/10
+    y2 = x[3] # Velocidad en el eje y de la masa
     z1 = x[4] # Posición en el eje z de la masa
     z2 = x[5] # Velocidad en el eje z de la masa
     xp = np.zeros((6,1)) # xp indica derivada de x con respecto al tiempo dx/dt = xp
@@ -53,11 +53,21 @@ class Masa:
         self.color = color
         self.radius = radius
     
+#    def draw(self, screen):
+#        x_axis = self.position[0]
+#        y_axis = self.position[1]
+#        print(x_axis, ", ", y_axis)
+#        pygame.draw.circle(screen, self.color, [(x_axis, y_axis)], self.radius)
+
     def draw(self, screen):
-        x_axis = self.position[0]
-        y_axis = self.position[1]
-        print(str(x_axis), ", ", str(y_axis))
-        pygame.draw.circle(screen, self.color, [x_axis, y_axis], self.radius)
+        ppx = self.position[0] * mlt
+        ppy = self.position[1] * mlt
+        ppz = self.position[2] * mlt
+        prx = ppx*R[0,0] + ppy*R[0,1] + ppz*R[0,2] + cn
+        pry = ppx*R[1,0] + ppy*R[1,1] + ppz*R[1,2] + cn
+        scralp4 = pygame.Surface((500,500), pygame.SRCALPHA)
+        pygame.draw.circle(scralp4,(10,10,255,130), (prx,pry), 3)
+        screen.blit(scralp4,(0,0))
         
     def move(self, u): # u es la fuerza ejercida por la otra masa
         self.u = u
