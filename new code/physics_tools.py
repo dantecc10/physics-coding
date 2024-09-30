@@ -49,12 +49,12 @@ def ode1(x, u, m):
     z2 = x[5] # Velocidad en el eje z de la masa
     xp = np.zeros((6, 1)) # xp indica la derivada de x con respecto al tiempo dx/dt = xp
 
-    xp[] = x2
-    xp[] = (1 / m) * (u[0])
-    xp[] = y2
-    xp[] = (1 / m) * (u[1])
-    xp[] = z2
-    xp[] = (1 / m) * (u[2])
+    xp[0] = x2
+    xp[1] = (1 / m) * (u[0])
+    xp[2] = y2
+    xp[3] = (1 / m) * (u[1])
+    xp[4] = z2
+    xp[5] = (1 / m) * (u[2])
     return xp
 
 # Ordinary differential equation for the planets with body restrictions
