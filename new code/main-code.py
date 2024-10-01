@@ -1,6 +1,6 @@
 import numpy as np
 import pygame
-#import class_vector as v
+import class_vector as v
 import physics_tools as pt
 import imageio
 
@@ -111,4 +111,22 @@ while running:
     
     for k in range(n):
         col_random = col_random_V[:, k]
-        x = 
+        x = np.reshape(X[:, k], (6, 1))
+        pt.mass3D(b, R, x, (col_random[0], col_random[1], col_random[2], 255), 3 + 0.0 * radios[k, 0] - offr, screen)
+        
+    keys = pygame.key.get_pressed()
+    a1, a2, a3, mlt = pt.rotkey(b, keys, screen)
+    
+    # Capturar el frame actual
+    frame = pygame.surfarray.array3d(screen)
+    frame = np.transpose(frame, (1, 0, 2)) # Transposición necesario para el formato correcto
+    video_frames.append(frame)
+    
+    pygame.display.flip()
+    dt = clock.tick(fps) / 1000
+pygame.quit()
+print("Fin de la simulación")
+
+# Guardar el video
+imageio.mimsave(filename, video_frames, fps=fps)
+print("Video guardado en {filename}")
