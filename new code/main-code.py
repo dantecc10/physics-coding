@@ -8,7 +8,7 @@ screen, clock, my_font = v.init_pygame()
 
 # Constantes
 G = 1e0 * 1
-n = 100 # Masas
+n = 2 # Masas
 radius = 10
 radius_proyectil = 10
 #radius_proyectil = 1000
