@@ -10,7 +10,8 @@ screen, clock, my_font = v.init_pygame()
 G = 1e0 * 1
 n = 100 # Masas
 radius = 10
-radius_proyectil = 1000
+radius_proyectil = 10
+#radius_proyectil = 1000
 rg = 1e8
 offr = 0
 
@@ -29,19 +30,19 @@ for k in range (n):
     #pos_random[2] = 0
     
     if k > (n-2):
-        Masas.append(pt.mass([0, -10000, 0], [0, 20000, 0], [0, 0, 0], 1e9))
+        Masas.append(pt.mass([0, -100, 0], [0, 200, 0], [0, 0, 0], 1e3))
         col_random_V[:, k] = np.reshape((0, 0, 0), (3,))
-        radius[k] = radius_proyectil
+        radios[k] = radius_proyectil
         
     else:
-        Masas.append(pt.mass(pos_random, [0, 0, 0], [0, 0, 0], 1e3))
-        col_random_V[:, k] = np.reshape(col_random, (3,))
-        radius[k] = radius
+        Masas.append(pt.mass(pos_random * 0 + [0, 10 + 30 * k, 0], [0, 0, 0], [0, 0, 0], 1e3))
+        col_random_V[:, k] = np.reshape((255, 0, 0), (3,))
+        radios[k] = radius
     
     aux = Masas[k].mkxp()
     X[:, k] = np.reshape(aux[0], (6,))
     M[k] = np.reshape(aux[1], (1,))
-    U[k] = np.reshape(aux[2], (3,))
+    U[:, k] = np.reshape(aux[2], (3,))
 
 print(M)
 L = 50
@@ -59,7 +60,7 @@ b = np.zeros((8, 1))
 # Parámetros del video
 video_frames = []
 fps = 60 # Frames por segundo
-filename = "Simulación7.mp4" # Nombre del archivo de video
+filename = "simulación7.mp4" # Nombre del archivo de video
 
 while running:
     b[0] = L
@@ -86,7 +87,7 @@ while running:
     K1 = np.zeros_like(X)
     for k in range(n):
         x = np.reshape(X[:, k], (6, 1))
-        u = np.reshape(X[:, k], (3, 1))
+        u = np.reshape(U[:, k], (3, 1))
         m = M[k]
         aux = pt.ode2(x, u, m)
         K1[:, k] = np.reshape(aux, (6,))
@@ -95,7 +96,7 @@ while running:
     for i, K, in enumerate([K2, K3, K4], start=1):
         for k in range(n):
             x = np.reshape(X[:, k] + (0.5 * i) * hsim * K1[:, k], (6, 1))
-            u = np.reshape(X[:, k], (3, 1))
+            u = np.reshape(U[:, k], (3, 1))
             m = M[k]
             aux = pt.ode2(x, u, m)
             K[:, k] = np.reshape(aux, (6,))
@@ -112,7 +113,7 @@ while running:
     for k in range(n):
         col_random = col_random_V[:, k]
         x = np.reshape(X[:, k], (6, 1))
-        pt.mass3D(b, R, x, (col_random[0], col_random[1], col_random[2], 255), 3 + 0.0 * radios[k, 0] - offr, screen)
+        pt.mass3D(b, R, x, (col_random[0], col_random[1], col_random[2], 255), 10 + 0.0 * radios[k, 0] - offr, screen)
         
     keys = pygame.key.get_pressed()
     a1, a2, a3, mlt = pt.rotkey(b, keys, screen)

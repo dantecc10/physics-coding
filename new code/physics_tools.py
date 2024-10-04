@@ -70,12 +70,12 @@ def ode2(x, u, m):
 
     kv = 1000
     
-    xp[] = x2
-    xp[] = (1 / m) * (u[0] - kv * x[1])
-    xp[] = y2
-    xp[] = (1 / m) * (u[1] - kv * x[3])
-    xp[] = z2
-    xp[] = (1 / m) * (u[2] - kv * x[5])
+    xp[0] = x2
+    xp[1] = (1 / m) * (u[0] - kv * x[1])
+    xp[2] = y2
+    xp[3] = (1 / m) * (u[1] - kv * x[3])
+    xp[4] = z2
+    xp[5] = (1 / m) * (u[2] - kv * x[5])
     return xp
 
 # Runge Kutta order 4 ode solver
@@ -143,9 +143,9 @@ def cord3D(b, R, screen):
     scralp3 = pygame.Surface((500, 500), pygame.SRCALPHA)
     pygame.draw.polygon(scralp3, (0, 0, 0, 30), [[px1, py1], [px2, py2], [px7, py7], [px6, py6]], 0)
 
-    screen.blit(scralp, 0, 0)
-    screen.blit(scralp2, 0, 0)
-    screen.blit(scralp3, 0, 0)
+    screen.blit(scralp, (0, 0))
+    screen.blit(scralp2, (0, 0))
+    screen.blit(scralp3, (0, 0))
     
 # Mass 3D visualitation
 def mass3D(b, R, x, color, r, screen):
@@ -223,7 +223,7 @@ def dist2mass(X):
             # print(k, r)
             d[k, r] = np.sqrt((X[0, k] - X[0, r]) ** 2 + (X[2, k] - X[2, r]) ** 2 + (X[4, k] - X[4, r]) ** 2)
             d[r, k] = d[k, r]
-            return d
+    return d
 
 # Unitary vector calculation
 def uvect(X, d):
@@ -232,7 +232,7 @@ def uvect(X, d):
     
     u = np.zeros((n, n, 3))
     for k in range(n):
-        for r in range(n):
+        for r in range(1 + k, n):
                 u[k, r, 0] = (X[0, k] - X[0, r]) / d[k, r]
                 u[k, r, 1] = (X[2, k] - X[2, r]) / d[k, r]
                 u[k, r, 2] = (X[4, k] - X[4, r]) / d[k, r]
@@ -249,11 +249,12 @@ def incl(Un, D, radios, mv, n, rg, U, G, radius_proyectil):
             qx = k
             qy = (k + r + 1) % n
             for p in range(3):
-                Pkp = Un[qx, qy, p] * D[qx, qy, p]
+                Pkp = Un[qx, qy, p] * D[qx, qy]
                 
                 vrkp = 2 * radios[k, 0] * Un[qx, qy, p]
-                if qy == n - 1:
+                '''if qy == n - 1:
                     vrkp = radius_proyectil * Un[qx, qy, p]
+                    '''
                 
                 Fr = rg * (Pkp - vrkp) * (0.5 + 0.5 * np.sign(abs(vrkp) - abs(Pkp)))
                 # if abs(Fr) > 0:
