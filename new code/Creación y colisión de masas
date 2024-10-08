@@ -1,0 +1,103 @@
+import pygame
+import numpy as np
+
+# Inicialización de pygame
+pygame.init()
+
+# Definir la pantalla y el reloj
+screen = pygame.display.set_mode((500, 500))
+clock = pygame.time.Clock()
+
+my_font = pygame.font.SysFont('Arial', 10)
+
+class Masa:
+    def __init__(self, position, mass, velocity=(0, 0), color=(0, 0, 255), radius=10):
+        self.position = list(position)
+        self.mass = mass
+        self.velocity = list(velocity)
+        self.color = color
+        self.radius = radius
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, self.color, (int(self.position[0]), int(self.position[1])), self.radius)
+
+    def move(self, dt):
+        self.position[0] += self.velocity[0] * dt
+        self.position[1] += self.velocity[1] * dt
+
+    def apply_force(self, force, dt):
+        acceleration = [force[0] / self.mass, force[1] / self.mass]
+        self.velocity[0] += acceleration[0] * dt
+        self.velocity[1] += acceleration[1] * dt
+
+    def check_collision(self, other):
+        distance = np.linalg.norm(np.array(self.position) - np.array(other.position))
+        return distance <= self.radius + other.radius
+
+def crear_masas(n_masas):
+    masas = []
+    for i in range(n_masas):
+        position = (250, 100 + i * 50)  # Posiciones iniciales de las masas
+        mass = 10
+        velocity = (0, 0)
+        color = (0, 0, 255) if i == 0 else (255, 0, 0)  # La primera masa es azul
+        radius = 10
+        masas.append(Masa(position, mass, velocity, color, radius))
+    return masas
+
+# Crear 10 masas
+masas = crear_masas(10)
+
+# Valor de la fuerza aplicada
+force_value = 300  
+
+# Bucle principal
+running = True
+while running:
+    dt = clock.tick(60) / 1000  # Delta time
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    screen.fill((255, 255, 255))
+
+    # Mover y dibujar todas las masas
+    for masa in masas:
+        masa.move(dt)
+        masa.draw(screen)
+
+    # Detectar colisiones entre todas las masas
+    for i in range(len(masas)):
+        for j in range(i + 1, len(masas)):
+            if masas[i].check_collision(masas[j]):
+                # Si colisionan, aplicar una fuerza en dirección opuesta para separarlas
+                force_direction = np.array(masas[j].position) - np.array(masas[i].position)
+                norm = np.linalg.norm(force_direction)
+                if norm != 0:  # Evitar división por cero
+                    force_direction = force_direction / norm
+                    collision_force = force_value * 10
+                    masas[i].apply_force(-collision_force * force_direction, dt)
+                    masas[j].apply_force(collision_force * force_direction, dt)
+
+    # Aplicar fuerzas a la primera masa según las teclas presionadas
+    keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_w]:
+        masas[0].apply_force((0, -force_value), dt)
+    if keys[pygame.K_s]:
+        masas[0].apply_force((0, force_value), dt)
+    if keys[pygame.K_a]:
+        masas[0].apply_force((-force_value, 0), dt)
+    if keys[pygame.K_d]:
+        masas[0].apply_force((force_value, 0), dt)
+
+    # Actualizar la pantalla
+    pygame.display.flip()
+
+# Cerrar pygame
+pygame.quit()
+
+#ESTE YA ES EL CODIGO CORREGIDO DEL ULTIMO QUE SUBÍ
+#EN ESTE LAS MASAS YA COLISIONAN ENTRE ELLAS
+#EL DETALLE ES QUE AÚN NO EXPLOTAN, PERO YA ES UN AVANCE.
