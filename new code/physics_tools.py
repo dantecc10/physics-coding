@@ -6,14 +6,24 @@ import pygame
 
 # b = [L, cn, a1, a2, a3, mlt, dt]
 # mass class creation
+# Tell me where the variables are for calculating the cinetic energy ins this code; the formula is K = 0.5 * m * v^2
+# The variables are in the class mass, in the __init__ method, the variables are pos, vel, forc, m
+# The variables are in the class mass, in the mkxp method, the variables are x, m, forc
+# The variables are in the main-code.py, in the main loop, the variables are X, M, U
+# So, how do you calculate the cinetic energy in this code? Tell me the expression to be used in the main-code.py using the available variables
+# The expression is K = 0.5 * np.sum(M * np.sum(X[1:4, :] ** 2, axis = 0))
+
+simple_data_array = []
+
 class mass:
     def __init__(self, pos, vel, forc, m):
         self.pos = list(pos)
         self.vel = list(vel)
         self.forc = list(forc)
         self.m = m
+        self.speed = 0
         
-    def mkxp(self):
+    def mkxp(self): # Make x, m, p
         x = np.zeros((6, 1))
         x[0, 0] = self.pos[0]
         x[2, 0] = self.pos[1]
@@ -147,8 +157,17 @@ def cord3D(b, R, screen):
     screen.blit(scralp2, (0, 0))
     screen.blit(scralp3, (0, 0))
     
+class simple_data:
+    def __init__(self, speed, mass):
+        self.mass = mass
+        self.speed = speed
+
 # Mass 3D visualitation
-def mass3D(b, R, x, color, r, screen):
+def mass3D(b, R, x, color, r, screen, font = pygame.font.SysFont('Arial', 10)):
+    # Where's the speed?: The speed is in the x variable, in the 1, 3 and 5 positions. Calculate the speed using the formula v = sqrt(vx^2 + vy^2 + vz^2) and show it in the screen
+    # Where's the mass of a single mass? The mass of a single mass is in the M variable, in the 0 position. Calculate the mass using the formula M = 0.5 * np.sum(M * np.sum(X[1:4, :] ** 2, axis = 0)) and show it in the screen
+    # What data is in x? The data in x is the position and speed of the masses. Describe it: x = [x, vx, y, vy, z, vz]
+    v = np.sqrt(x[1, 0] ** 2 + x[3, 0] ** 2 + x[5, 0] ** 2)
     # b = [L, cn, a1, a2, a3, mlt]
     L = b[0, 0]
     cn = b[1, 0]
@@ -165,7 +184,7 @@ def mass3D(b, R, x, color, r, screen):
     
     prx = ppx * R[0, 0] + ppy * R[0, 1] + ppz * R[0, 2] + cn
     pry = ppx * R[1, 0] + ppy * R[1, 1] + ppz * R[1, 2] + cn
-    
+    #text1 = font.render('FPS: ' + str(dt), True, (0, 0, 0))
     scralp = pygame.Surface((500, 500), pygame.SRCALPHA)
     # pygame.draw.circle(scralp, (10, 10, 255, 130), (prx, pry), 3)
     pygame.draw.circle(scralp, color, (prx, pry), r)

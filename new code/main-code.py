@@ -12,8 +12,11 @@ n = 2 # Masas
 radius = 10
 radius_proyectil = 10
 #radius_proyectil = 1000
-rg = 1e8
+rg = 1e6
 offr = 0
+
+pygame.font.init()
+font = pygame.font.Font(None, 20)
 
 Masas = []
 
@@ -27,9 +30,9 @@ psrand_vec = np.zeros((3, n))
 for k in range (n):
     col_random = np.random.uniform(0, 225, 3)
     pos_random = np.random.uniform(-100, 100, 3)
-    #pos_random[2] = 0
+    #pos_random[2] = 0# The expression is K = 0.5 * np.sum(M * np.sum(X[1:4, :] ** 2, axis = 0))
     
-    if k > (n-2):
+    if k > n-2:
         Masas.append(pt.mass([0, -100, 0], [0, 200, 0], [0, 0, 0], 1e3))
         col_random_V[:, k] = np.reshape((0, 0, 0), (3,))
         radios[k] = radius_proyectil
@@ -55,12 +58,12 @@ cn = 250
 hsim = 1/60
 dt = 1/60
 running = True
-b = np.zeros((8, 1))
+b = np.zeros((8, 1)) # 
 
 # Parámetros del video
 video_frames = []
 fps = 60 # Frames por segundo
-filename = "simulación7.mp4" # Nombre del archivo de video
+filename = "simulacion7.mp4" # Nombre del archivo de video
 
 while running:
     b[0] = L
@@ -113,17 +116,33 @@ while running:
     for k in range(n):
         col_random = col_random_V[:, k]
         x = np.reshape(X[:, k], (6, 1))
-        pt.mass3D(b, R, x, (col_random[0], col_random[1], col_random[2], 255), 10 + 0.0 * radios[k, 0] - offr, screen)
+        pt.mass3D(font,b, R, x, (col_random[0], col_random[1], col_random[2], 255), 10 + 0.0 * radios[k, 0] - offr, screen)
         
     keys = pygame.key.get_pressed()
     a1, a2, a3, mlt = pt.rotkey(b, keys, screen)
+    #K_DISPLAY = (0.5 * np.sum(M * np.sum(X[1:4, :] ** 2, axis = 0)))
+    #text1 = font.render("Energía Cinética (K) = " + K_DISPLAY.astype(str), True, (0, 0, 0))
+    
+    #n_length = len(Masas)
+    #texts = [None] * n_length
+    #for i in range(n_length):
+    #    # dime como saco raíz cuadrad
+    #    #v2 = np.sqrt(np.sum(Masas[i].v ** 2))
+    #    v = np.sqrt(Masas[i].vel[0] ** 2 + Masas[i].vel[1] ** 2 + Masas[i].vel[2] ** 2)
+    #    v2 = v ** 2
+    #    m_displayable = (0.5 * Masas[i].m) * v2
+    #    texts[i] = font.render("Masa " + str(i) + " = " + str(m_displayable), True, (0, 0, 0))
+    #    screen.blit(texts[i], (50, 400 + 20 * i))
+    # Imprimir el texto
+    text1 = font.render('FPS: ' + str(dt), True, (0, 0, 0))
+    screen.blit(text1, (50, 50))
     
     # Capturar el frame actual
     frame = pygame.surfarray.array3d(screen)
     frame = np.transpose(frame, (1, 0, 2)) # Transposición necesario para el formato correcto
     video_frames.append(frame)
-    
     pygame.display.flip()
+    
     dt = clock.tick(fps) / 1000
 pygame.quit()
 print("Fin de la simulación")
