@@ -67,7 +67,7 @@ def ode1(x, u, m):
     xp[5] = (1 / m) * (u[2])
     return xp
 
-# Ordinary differential equation for the planets with body restrictions 
+# Ordinary differential equation for the planets with body restrictions
 def ode2(x, u, m):
     # Variables de estado
     x1 = x[0] # Posición en el eje x de la masa
