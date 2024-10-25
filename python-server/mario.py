@@ -3,24 +3,24 @@ import numpy as np
 
 # Inicialización de Pygame
 pygame.init()
-
+t = 0
 # Cargar imagen y convertirla para procesamiento
 imagen = pygame.image.load('img1.jpg')
 imagen = pygame.transform.scale(imagen, (300, 300))  # Escala la imagen a un tamaño manejable
 pixels = pygame.surfarray.array3d(imagen)  # Obtiene los píxeles en una matriz 3D (RGB)
 
 # Definir filtros convolucionales (kernels)
-kernel_edge = np.array([[-1, -1, -1],  # Kernel para detección de bordes
-                        [-1, 8, -1],
-                        [-1, -1, -1]])
+kernel_edge = np.array([[-1, 5, -10],  # Kernel para detección de bordes
+                        [5, -5, 2],
+                        [1, 2, 3]])
 
-kernel_blur = np.array([[1/9, 1/9, 1/9],  # Kernel para desenfoque
-                        [1/9, 1/9, 1/9],
-                        [1/9, 1/9, 1/9]])
+kernel_blur = np.array([[0, 0, 0],  # Kernel para desenfoque
+                        [0, 0, 0],
+                        [0, 0, 0]])
 
-kernel_sharpen = np.array([[0, -1, 0],   # Kernel para realzar bordes
-                           [-1, 5, -1],
-                           [0, -1, 0]])
+kernel_sharpen = np.array([[1, 1, 1],   # Kernel para realzar bordes
+                           [1, 1, 1],
+                           [1, 1, 1]])
 
 # Aplicar convolución
 def aplicar_filtro(pixels, kernel):
@@ -49,8 +49,17 @@ pygame.display.flip()
 
 # Mantener la ventana abierta hasta que el usuario la cierre
 running = True
+
 while running:
     for event in pygame.event.get():
+        rk = np.array([[np.sin(t *2 ), np.cos(3 * t), np.sin(5 * t)], [0, 0, 0], [0, 0, 0]])
+        pixels_filtrados = aplicar_filtro(pixels, rk)  # Puedes cambiar kernel_edge a otro kernel
+        imagen_filtrada = pygame.surfarray.make_surface(pixels_filtrados)
+        # Mostrar la imagen filtrada en pantalla
+        pantalla = pygame.display.set_mode((300, 300))
+        pantalla.blit(imagen_filtrada, (0, 0))
+        pygame.display.flip()
+        t += 1
         if event.type == pygame.QUIT:
             running = False
 
