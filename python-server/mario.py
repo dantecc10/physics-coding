@@ -52,14 +52,14 @@ running = True
 
 while running:
     for event in pygame.event.get():
-        rk = np.array([[np.sin(t *2 ), np.cos(3 * t), np.sin(5 * t)], [0, 0, 0], [0, 0, 0]])
+        rk = np.array([[np.sin(t * 7 ), np.cos(4 * t), np.sin(3 * t)], [np.sin(t * 7 ), np.cos(4 * t), np.sin(3 * t)], [np.sin(t * 7 ), np.cos(4 * t), np.sin(3 * t)]])
         pixels_filtrados = aplicar_filtro(pixels, rk)  # Puedes cambiar kernel_edge a otro kernel
         imagen_filtrada = pygame.surfarray.make_surface(pixels_filtrados)
         # Mostrar la imagen filtrada en pantalla
         pantalla = pygame.display.set_mode((300, 300))
         pantalla.blit(imagen_filtrada, (0, 0))
         pygame.display.flip()
-        t += 1
+        t += .5
         if event.type == pygame.QUIT:
             running = False
 
