@@ -1,4 +1,4 @@
-# Navier Stokes python, Carlos Leopoldo, 2024, FCC-BUAP, Cómputo dist.
+# Navier Stokes python, Dante Castelan/Victor Moro, 2024, FCC-BUAP, Fisica Computacional.
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image  as imgp
