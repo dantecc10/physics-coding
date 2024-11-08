@@ -80,25 +80,25 @@ Q = np.array((Nx,Ny))
 Ga1 = np.array(imgp.imread('Cuerpo_1024.png'))
 #plt.imshow(Ga1)
 #plt.show()
- 
+
 body_u = 0*u
 body_v = 0*v
 body_u[1:Nx+1,1:Ny+1] = Ga1[:,:,0]
 body_v[1:Nx+1,1:Ny+1] = Ga1[:,:,0]
 Q = 1e5*Ga1[:,:,0]
 p_bod = convolve2d(body_u[:,1:Ny+1],prom_x, mode='valid')
- 
+
 # Control temperatura
 Sens = 0
 Kp = 15
- 
+
 # Frontera campo velocidad
 int_jet = 4
 for k1 in range(0,Ny+2,1):
     u[0,k1]     = int_jet
     u[Nx,k1]    = int_jet
 # scipy.io.savemat('u_py.mat', {'u_py': u})
- 
+
 # NV con RK-4
 for ii in range(0,nt,1):
     if (dt*ii)>0:
