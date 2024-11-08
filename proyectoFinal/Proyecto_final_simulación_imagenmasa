@@ -1,4 +1,4 @@
-# Navier Stokes python, Dante Castelan/Victor Moro, 2024, FCC-BUAP, Fisica Computacional.
+# Navier Stokes python, Dante Castelán / Víctor Moro, 2024, FCC-BUAP, Fisica Computacional.
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image  as imgp
@@ -98,13 +98,6 @@ for k1 in range(0,Ny+2,1):
     u[0,k1]     = int_jet
     u[Nx,k1]    = int_jet
 # scipy.io.savemat('u_py.mat', {'u_py': u})
- 
- 
- 
- 
- 
- 
- 
  
 # NV con RK-4
 for ii in range(0,nt,1):
