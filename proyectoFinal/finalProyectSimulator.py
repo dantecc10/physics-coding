@@ -77,7 +77,7 @@ cal_p = 1
 alpha1 = rho*cal_p
 conduct = 1
 Q = np.array((Nx,Ny))
-Ga1 = np.array(imgp.imread('Cuerpo_1024.png'))
+Ga1 = np.array(imgp.imread('tux.jpg'))
 #plt.imshow(Ga1)
 #plt.show()
 
