@@ -40,7 +40,7 @@ W_h = np.array([
 W_v = np.array([
     [1,-2,1]
     ])
- 
+
 prom_x = np.array([
     [1],
     [1]
