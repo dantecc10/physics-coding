@@ -31,7 +31,7 @@ vce = ( v[1:Nx+1,0:Ny] + v[1:Nx+1,1:Ny+1] )*0.5
 
 # campo de presión
 p = np.zeros((Nx,Ny))
- 
+
 W_h = np.array([
     [1],
     [-2],
