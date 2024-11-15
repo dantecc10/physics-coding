@@ -25,7 +25,7 @@ v = np.zeros((Nx+2,Ny+1))   #eje y
 
 uce = np.zeros((Nx,Ny))
 vce = np.zeros((Nx,Ny))
- 
+
 uce = ( u[0:Nx,1:Ny+1] + u[1:Nx+1,1:Ny+1] )*0.5
 vce = ( v[1:Nx+1,0:Ny] + v[1:Nx+1,1:Ny+1] )*0.5
  
