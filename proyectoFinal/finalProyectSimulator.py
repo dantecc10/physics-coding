@@ -22,7 +22,7 @@ dy  = Ly/Ny
 # Campo de velocidad
 u = np.zeros((Nx+1,Ny+2))   #eje x
 v = np.zeros((Nx+2,Ny+1))   #eje y
- 
+
 uce = np.zeros((Nx,Ny))
 vce = np.zeros((Nx,Ny))
  
