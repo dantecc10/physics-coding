@@ -18,7 +18,7 @@ Nx  = 1024
 Ny  = 1024
 dx  = Lx/Nx
 dy  = Ly/Ny
- 
+
 # Campo de velocidad
 u = np.zeros((Nx+1,Ny+2))   #eje x
 v = np.zeros((Nx+2,Ny+1))   #eje y
