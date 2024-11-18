@@ -11,7 +11,7 @@ Re      = 1500
 tsim    = 1
 dt      = 1e-5
 nt      = int(np.round(tsim/dt))
- 
+
 Lx  = 1
 Ly  = 1
 Nx  = 1024
