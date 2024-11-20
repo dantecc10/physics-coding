@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 class SimpleWindow(QWidget):
     def __init__(self, px, py, lx, ly):
         super().__init__()
- 
+
         # Tamaño de la ventana
         self.px = px
         self.py = py
