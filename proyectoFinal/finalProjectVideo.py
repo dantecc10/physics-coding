@@ -8,7 +8,7 @@ from   scipy.signal import convolve2d
 import imageio
 
 #Parameters
-Re      = 1500
+Re      = 5000
 tsim    = 1
 dt      = 1e-5
 nt      = int(np.round(tsim/dt))
