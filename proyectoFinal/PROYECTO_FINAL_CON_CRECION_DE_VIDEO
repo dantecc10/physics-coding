@@ -6,19 +6,19 @@ import scipy.io
 from   scipy.io import loadmat
 from   scipy.signal import convolve2d
 import imageio
- 
+
 #Parameters
-Re      = 1500
-tsim    = 1
-dt      = 1e-5
-nt      = 13000  #int(np.round(tsim/dt))
+Re = 1500
+tsim = 1
+dt = 1e-5
+nt = 13000  #int(np.round(tsim/dt))
  
-Lx  = 1
-Ly  = 1
-Nx  = 1024
-Ny  = 1024
-dx  = Lx/Nx
-dy  = Ly/Ny
+Lx = 1
+Ly = 1
+Nx = 1024
+Ny = 1024
+dx = Lx/Nx
+dy = Ly/Ny
  
 # Campo de velocidad
 u = np.zeros((Nx+1,Ny+2))   #eje x
