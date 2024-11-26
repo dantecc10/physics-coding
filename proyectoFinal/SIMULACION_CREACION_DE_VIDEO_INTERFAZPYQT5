@@ -1,3 +1,4 @@
+from matplotlib import pyplot as plt
 import numpy as np
 import pygame
 import imageio
@@ -71,7 +72,12 @@ class Simulation:
         self.u[1:self.Nx, 1:self.Ny + 1] += self.dt * (-Lux / self.Re)
 
         # Crear una imagen representativa del campo de velocidad
-        u_visual = (self.u[1:-1, 1:-1] - np.min(self.u)) / (np.max(self.u) - np.min(self.u))
+        min_u = np.min(self.u)
+        max_u = np.max(self.u)
+        if max_u != min_u:
+            u_visual = (self.u[1:-1, 1:-1] - min_u) / (max_u - min_u)
+        else:
+            u_visual = np.zeros_like(self.u[1:-1, 1:-1])
         u_visual = (u_visual * 255).astype(np.uint8)
         return u_visual
 

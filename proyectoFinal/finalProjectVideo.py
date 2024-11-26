@@ -8,7 +8,7 @@ from   scipy.signal import convolve2d
 import imageio
 
 #Parameters
-Re      = 5000
+Re      = 2999
 tsim    = 1
 dt      = 1e-5
 nt      = int(np.round(tsim/dt))
@@ -78,7 +78,8 @@ cal_p = 1
 alpha1 = rho*cal_p
 conduct = 1
 Q = np.array((Nx,Ny))
-Ga1 = np.array(imgp.imread('tux.jpg'))
+#Ga1 = np.array(imgp.imread('tux.jpg'))
+Ga1 = np.array(imgp.imread('baylogo.png'))
 #plt.imshow(Ga1)
 #plt.show()
  
@@ -104,11 +105,7 @@ for k1 in range(0,Ny+2,1):
 video_frames = []
 fps = 60
 filename = 'simulacion9.mp4'
- 
- 
- 
- 
- 
+
 # NV con RK-4
 for ii in range(0,nt,1):
     if (dt*ii)>0:
