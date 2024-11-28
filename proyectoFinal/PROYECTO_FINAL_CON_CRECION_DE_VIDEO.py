@@ -8,10 +8,11 @@ from   scipy.signal import convolve2d
 import imageio
 
 #Parameters
-Re = 1500
+Re = 300
 tsim = 1
-dt = 1e-5
+dt = 1e-10
 nt = 13000  #int(np.round(tsim/dt))
+video_n = 0
  
 Lx = 1
 Ly = 1
@@ -105,10 +106,6 @@ video_frames = []
 fps = 60
 filename = 'simulacion9.mp4'
  
- 
- 
- 
- 
 # NV con RK-4
 for ii in range(0,nt,1):
     if (dt*ii)>0:
@@ -188,7 +185,11 @@ for ii in range(0,nt,1):
     Ty = convolve2d(T,prom_y, mode='valid')
     print(ii)
     mean_field_vel = np.sqrt(uce*uce+vce*vce)
-    mean_field_vel = (mean_field_vel - np.min(mean_field_vel))/(np.max(mean_field_vel)-np.min(mean_field_vel))
+    # Evita divisiones por cero
+    denom = np.max(mean_field_vel) - np.min(mean_field_vel)
+    mean_field_vel = (mean_field_vel - np.min(mean_field_vel)) / (denom if denom > 1e-10 else 1e-10)
+
+    #mean_field_vel = (mean_field_vel - np.min(mean_field_vel))/(np.max(mean_field_vel)-np.min(mean_field_vel))
     frame = mean_field_vel
     video_frames.append(frame)
     if (ii%10)==1:
@@ -213,6 +214,10 @@ for ii in range(0,nt,1):
     print([np.max(uce),np.max(vce),np.max(uco),np.max(vco)])
     break
     '''
+    if video_n == 50:
+        imageio.mimsave(filename, video_frames, fps=fps)
+        video_n = 0
+    video_n += 1
 print("fin")
 imageio.mimsave(filename, video_frames, fps=fps)
 
