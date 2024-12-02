@@ -184,18 +184,5 @@ for ii in range(0,nt,1):
         plt.draw()
         plt.pause(0.1)
         print(ii)
-    #print(LTx.shape)
-    #print(LTy.shape)
-    #scipy.io.savemat('FFb_py.mat', {'FFb_py': FFb})
-    #scipy.io.savemat('b_py.mat', {'b_py': b})
-    #scipy.io.savemat('u_F_py.mat', {'u_F_py': u_F})
-    #scipy.io.savemat('p_py.mat', {'p_py': p})
-    #scipy.io.savemat('LTx_py.mat', {'LTx_py': LTx})
-    #scipy.io.savemat('LTy_py.mat', {'LTy_py': LTy})
-    #break
-    '''
-    print([uce.shape,vce.shape,uco.shape,vco.shape])
-    print([np.max(uce),np.max(vce),np.max(uco),np.max(vco)])
-    break
-    '''
+    
 print("fin")
